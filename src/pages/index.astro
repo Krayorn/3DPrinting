@@ -1,0 +1,35 @@
+---
+import { getCollection } from "astro:content";
+
+import Layout from '../layouts/Layout.astro';
+import PrintCard from "../components/PrintCard.astro";
+
+const prints = await getCollection('prints')
+---
+
+<Layout title="Available prints">
+	<main>
+		<h1>Available prints</h1>
+		<section id="prints" >
+			{
+				prints.map(print => <PrintCard print={print.data} slug={print.id} />)
+			}
+		</section>
+	</main>
+</Layout>
+
+<style>
+
+	h1 {
+		color: var(--white);
+		background-color: var(--black);
+		text-align: center;
+		padding: 20px;
+	}
+	#prints {
+		display: flex;
+		justify-content: center;
+    	align-items: center;
+		flex-wrap: wrap;
+	}
+</style>

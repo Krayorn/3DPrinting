@@ -1,0 +1,56 @@
+---
+const { slug, print } = Astro.props
+
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/prints/*.{webp,jpeg,jpg,png,gif}');
+
+const imagePath = print.image
+if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: "src/assets/prints/*.{webp,jpeg,jpg,png,gif}"`);
+
+---
+
+<div class="card" >
+    <section>
+        <h3>{print.name}</h3>
+        <p>From {print.price}€</p>
+        
+        <button>    
+            <a href={`/prints/${slug}`}>See details</a>
+        </button>
+    </section>
+    <Image src={images[imagePath]()} alt="The 3d print"></Image>
+</div>
+
+<style>
+    .card {
+        display: flex;
+        justify-content: space-between;
+        width: 520px;
+        margin: 20px 15px 0px;
+    }
+
+    section {
+        display: flex;
+        flex-direction: column;
+        color: var(--black);
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: var(--black);
+        border: none;
+        border-radius: 20px;
+
+        a {
+            color: var(--white);
+            text-decoration: none;
+        }
+    }
+
+    img {
+        width: 300px;
+        height: 150px;
+    }
+</style>
