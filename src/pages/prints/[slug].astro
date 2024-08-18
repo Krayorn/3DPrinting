@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 import Layout from '../../layouts/Layout.astro';
+import TagLabel from '../../components/TagLabel.astro'
 
 export async function getStaticPaths() {
     const prints = (await getCollection('prints'))
@@ -15,7 +16,6 @@ export async function getStaticPaths() {
     });
 }
 
-
 const { print } = Astro.props;
 
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/prints/*.{webp,jpeg,jpg,png,gif}');
@@ -23,13 +23,53 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/prints/
 const imagePath = print.data.image
 if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: "src/assets/prints/*.{webp,jpeg,jpg,png,gif}"`);
 
+const colors = {
+    white: "#FFFFFF",
+    orange: "#e56a11"
+}
+
 ---
 
 <Layout title="Available prints">
 	<main>
 		<h1>{print.data.name}</h1>
-        <Image src={images[imagePath]()} alt="The 3d print"></Image>
-	</main>
+        <section>
+            <div class="options" >
+                <h2>Taille</h2>
+                <div class="sizeOptions" >
+                    {print.data.size.map(size => {
+                        return (
+                            <div class="sizeOption" >
+                                <div>{size.name}: {size.dimensions} (+{size.price}€)</div>
+                            </div>
+                        )
+                    })}
+                </div>
+                <h2>Couleurs</h2>
+                <div class="colorOptions" >
+                    {print.data.colors.map(color => {
+                        return (
+                            <div class="colorOption" >
+                                <span style={`background-color: ${colors[color.name.toLowerCase()]}`} class="colorDisplay"></span>
+                                <div>{color.name} (+{color.price}€)</div>
+                            </div>
+                        )
+                    })}
+                </div>
+                <div class="tags" >
+                    {print.data.tags.map(tag => {
+                        return (
+                            <TagLabel tag={tag}></TagLabel>
+                        )
+                    })}
+                </div>
+            </div>
+            <div class="imgs" >
+                <Image src={images[imagePath]()} alt="The 3d print"></Image>
+            </div>
+        </section>
+
+    </main>
 </Layout>
 
 <style>
@@ -38,11 +78,41 @@ if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: 
 		background-color: var(--black);
 		text-align: center;
 		padding: 20px;
+        margin: 0;
 	}
-
     img {
         width: 500px;
         height: 350px;
+    }
+    .sizeOption {
+        margin-bottom: 5px;
+    }
+    .colorOption {
+        display: flex;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+    .colorDisplay {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        margin-right: 10px;
+    }
+
+    .options {
+        width: 300px;
+    }
+    section {
+        display: flex;
+        margin: 0px 80px;
+    }
+
+    .tags {
+        display: flex;
+        a {
+            margin: 0px 10px;
+        }
     }
 
 </style>

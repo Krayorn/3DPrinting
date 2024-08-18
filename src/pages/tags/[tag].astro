@@ -1,0 +1,69 @@
+---
+import { getCollection } from "astro:content";
+
+import Layout from '../../layouts/Layout.astro';
+import PrintCard from '../../components/PrintCard.astro'
+
+export async function getStaticPaths() {
+    const prints = (await getCollection('prints'))
+    let tags = []
+    prints.forEach(print => {
+        print.data.tags.forEach(tag => {
+            if (!tags.includes(tag)) {
+                tags.push(tag)
+            }
+
+        })
+    })
+    
+    return tags.map(tag => {
+        const filteredPrints = prints.filter((print) => print.data.tags.includes(tag));
+        
+        return {
+            params: { tag: tag.toLowerCase() },
+            props: { tag, prints: filteredPrints },
+        };
+    })  ;
+}
+
+
+const { tag, prints } = Astro.props;
+
+---
+
+<Layout title={`Impressions ${tag}`}>
+	<main>
+		<h1>{tag}</h1>
+
+		<section id="prints" >
+			{
+				prints.map(print => <PrintCard print={print.data} slug={print.id} />)
+			}
+		</section>
+    </main>
+</Layout>
+
+<style>
+    h1 {
+		color:  var(--white);
+		background-color: var(--black);
+		text-align: center;
+		padding: 20px;
+        margin: 0;
+	}
+
+	#prints {
+		display: flex;
+		justify-content: center;
+    	align-items: center;
+		flex-wrap: wrap;
+	}
+
+    .tags {
+        display: flex;
+        div {
+            margin: 0px 10px;
+        }
+    }
+
+</style>

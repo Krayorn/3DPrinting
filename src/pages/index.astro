@@ -9,7 +9,7 @@ const prints = await getCollection('prints')
 
 <Layout title="Available prints">
 	<main>
-		<h1>Available prints</h1>
+		<h1>Impressions disponibles</h1>
 		<section id="prints" >
 			{
 				prints.map(print => <PrintCard print={print.data} slug={print.id} />)
@@ -25,6 +25,7 @@ const prints = await getCollection('prints')
 		background-color: var(--black);
 		text-align: center;
 		padding: 20px;
+		margin: 0;
 	}
 	#prints {
 		display: flex;

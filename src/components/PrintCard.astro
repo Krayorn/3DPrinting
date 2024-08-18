@@ -4,6 +4,8 @@ const { slug, print } = Astro.props
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
+import TagLabel from './TagLabel.astro'
+
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/prints/*.{webp,jpeg,jpg,png,gif}');
 
 const imagePath = print.image
@@ -14,11 +16,16 @@ if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: 
 <div class="card" >
     <section>
         <h3>{print.name}</h3>
-        <p>From {print.price}€</p>
-        
-        <button>    
-            <a href={`/3DPrinting/prints/${slug}`}>See details</a>
-        </button>
+        <p>À partir de {print.price}€</p>
+        <a href={`/3DPrinting/prints/${slug}`}>Voir les détails</a>
+
+        <div class="tags" >
+            {print.tags.map(tag => {
+                return (
+                    <TagLabel tag={tag}></TagLabel>
+                )
+            })}
+        </div>
     </section>
     <Image src={images[imagePath]()} alt="The 3d print"></Image>
 </div>
@@ -35,22 +42,29 @@ if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: 
         display: flex;
         flex-direction: column;
         color: var(--black);
+        width: 200px;
     }
 
-    button {
+    a {
         padding: 10px 20px;
         background-color: var(--black);
         border: none;
         border-radius: 20px;
-
-        a {
-            color: var(--white);
-            text-decoration: none;
-        }
+        color: var(--white);
+        text-decoration: none;
+        text-align: center;
     }
 
     img {
         width: 300px;
         height: 150px;
+    }
+
+    .tags {
+        margin-top: 10px;
+        display: flex;
+        a {
+            margin-right: 10px;
+        }
     }
 </style>

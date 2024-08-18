@@ -2,5 +2,6 @@
 {
     "name": "Drake 3d puzzle",
     "price": 6,
-    "image": "/src/assets/prints/dino_puzzle.png"
+    "image": "/src/assets/prints/dino_puzzle.png",
+    "tags": ["Jeu", "Puzzle"]
 }
