@@ -1,10 +1,13 @@
 ---
-const { slug, print } = Astro.props
 
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 import TagLabel from './TagLabel.astro'
+
+import type { Print } from '../utils/types'
+
+const { slug, print } = Astro.props as { slug: string, print: Print}
 
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/prints/*.{webp,jpeg,jpg,png,gif}');
 

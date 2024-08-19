@@ -3,5 +3,32 @@
     "name": "Helix fidget",
     "price": 5,
     "image": "/src/assets/prints/dino_puzzle.png",
-    "tags": ["Jeu", "Fidget"]
+    "tags": ["Jeu", "Fidget"],
+    "colors": [
+        {
+            "name": "White",
+            "price": 0 
+        },
+        {
+            "name": "Orange",
+            "price": 1 
+        }
+    ],
+    "size": [
+        {
+            "name": "normal",
+            "dimensions": "12x15cm",
+            "price": 0
+        },
+        {
+            "name": "large",
+            "dimensions": "17x22cm",
+            "price": 1
+        },
+        {
+            "name": "extra large",
+            "dimensions": "22x25cm",
+            "price": 3
+        }
+    ]
 }

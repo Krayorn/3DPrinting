@@ -3,12 +3,13 @@ import { getCollection } from "astro:content";
 
 import Layout from '../../layouts/Layout.astro';
 import PrintCard from '../../components/PrintCard.astro'
+import type { CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
-    const prints = (await getCollection('prints'))
-    let tags = []
+    const prints: Array<CollectionEntry<'prints'>> = (await getCollection('prints'))
+    let tags: Array<string> = []
     prints.forEach(print => {
-        print.data.tags.forEach(tag => {
+        print.data.tags.forEach((tag: string) => {
             if (!tags.includes(tag)) {
                 tags.push(tag)
             }

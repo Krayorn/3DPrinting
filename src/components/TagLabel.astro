@@ -1,15 +1,11 @@
 ---
-const { tag } = Astro.props
+const { tag } = Astro.props as { tag: string }
 
-const tags = {
-    puzzle: "#a2e862",
-    jeu: "#ff6aff",
-    fidget: "#FFFFFF",
-}
+import { tagToColor } from '../utils/coloring'
 
 ---
 
-<a href={`/3DPrinting/tags/${tag.toLowerCase()}`}  class="tag" style={`background-color: ${tags[tag.toLowerCase()]}`} >{tag}</a>
+<a href={`/3DPrinting/tags/${tag.toLowerCase()}`}  class="tag" style={`background-color: ${tagToColor(tag)}`} >{tag}</a>
 
 <style>
     .tag {

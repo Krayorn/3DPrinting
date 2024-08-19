@@ -16,17 +16,14 @@ export async function getStaticPaths() {
     });
 }
 
+import { colorToColor } from "../../utils/coloring";
+
 const { print } = Astro.props;
 
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/prints/*.{webp,jpeg,jpg,png,gif}');
 
 const imagePath = print.data.image
 if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: "src/assets/prints/*.{webp,jpeg,jpg,png,gif}"`);
-
-const colors = {
-    white: "#FFFFFF",
-    orange: "#e56a11"
-}
 
 ---
 
@@ -35,7 +32,7 @@ const colors = {
 		<h1>{print.data.name}</h1>
         <section>
             <div class="options" >
-                <h2>Taille</h2>
+                <h2>Taille</h2>gs
                 <div class="sizeOptions" >
                     {print.data.size.map(size => {
                         return (
@@ -50,7 +47,7 @@ const colors = {
                     {print.data.colors.map(color => {
                         return (
                             <div class="colorOption" >
-                                <span style={`background-color: ${colors[color.name.toLowerCase()]}`} class="colorDisplay"></span>
+                                <span style={`background-color: ${colorToColor(color.name)}`} class="colorDisplay"></span>
                                 <div>{color.name} (+{color.price}€)</div>
                             </div>
                         )
