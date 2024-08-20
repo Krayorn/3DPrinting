@@ -9,10 +9,10 @@ import type { Print } from '../utils/types'
 
 const { slug, print } = Astro.props as { slug: string, print: Print}
 
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/prints/*.{webp,jpeg,jpg,png,gif}');
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/prints/**/*.{webp,jpeg,jpg,png,gif}');
 
-const imagePath = print.image
-if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: "src/assets/prints/*.{webp,jpeg,jpg,png,gif}"`);
+const imagePath = print.image[0]
+if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: "src/assets/prints/**/*.{webp,jpeg,jpg,png,gif}"`);
 
 ---
 
@@ -60,7 +60,8 @@ if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: 
 
     img {
         width: 300px;
-        height: 150px;
+        height: 300px;
+        object-fit: contain;
     }
 
     .tags {

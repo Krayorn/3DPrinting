@@ -5,7 +5,7 @@ const printsCollection = defineCollection({
   schema: z.object({
     name: z.string(),
     price: z.number(),
-    image: z.string(),
+    image: z.array(z.string()),
     tags: z.array(z.string()),
     colors: z.array(z.object({
         name: z.string(),

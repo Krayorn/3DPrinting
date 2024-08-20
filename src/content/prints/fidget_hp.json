@@ -1,9 +1,9 @@
 
 {
-    "name": "Helix fidget",
-    "price": 5,
-    "image": "/src/assets/prints/dino_puzzle.png",
-    "tags": ["Jeu", "Fidget"],
+    "name": "Harry potter fidget toy",
+    "price": 3,
+    "image": ["/src/assets/prints/fidgets/fidgethp.jpeg"],
+    "tags": ["Jeu", "Puzzle"],
     "colors": [
         {
             "name": "White",
